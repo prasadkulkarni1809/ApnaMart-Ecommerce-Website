@@ -88,6 +88,7 @@ app.use((req, res, next) => {
 });
 const allowedOrigins = [
   "http://localhost:5173",
+  "https://apnamart-ecommerce-website-1.onrender.com",
   process.env.FRONTEND_URL,
 ].filter(Boolean);
 
