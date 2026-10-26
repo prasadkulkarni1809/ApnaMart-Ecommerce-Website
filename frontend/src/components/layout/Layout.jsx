@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 import Navbar from "./Navbar";
-import Footer from "./Footer";
+import Footer from "./footer.jsx";
 import AdminLayout from "../../admin/layout/AdminLayout.jsx";
 
 function Layout({ children }) {
