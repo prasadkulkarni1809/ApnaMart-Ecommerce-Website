@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Pay Now</title>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+
+<script>
+  var verificationStarted = false;
+  var failureRedirectStarted = false;
+
+  function summarizePaymentFailure(response) {
+    var error = response && response.error ? response.error : {};
+    var metadata = error.metadata || {};
+    return {
+      code: error.code || null,
+      description: error.description || null,
+      source: error.source || null,
+      step: error.step || null,
+      reason: error.reason || null,
+      razorpay_order_id: metadata.order_id || null,
+      razorpay_payment_id: metadata.payment_id || null,
+    };
+  }
+
+  function maskSignature(signature) {
+    if (!signature) return "<missing>";
+    if (signature.length <= 12) return signature.slice(0, 3) + "…";
+    return signature.slice(0, 6) + "…" + signature.slice(-4);
+  }
+
+  async function releasePaymentReservation(source, failure) {
+    console.log("PAYMENT FAILURE REQUEST:", {
+      orderId: "<%= order._id %>",
+      source: source || "unspecified",
+      failure: failure || null,
+      credentialsMode: "same-origin",
+    });
+
+    return fetch("/payment/failure", {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Client": "react",
+      },
+      body: JSON.stringify({
+        orderId: "<%= order._id %>",
+        source: source || "unspecified",
+        reason: failure && failure.reason,
+        failure: failure || null,
+      })
+    });
+  }
+
+  async function returnToReactHomeAfterFailure(source, failure) {
+    if (failureRedirectStarted) return;
+    failureRedirectStarted = true;
+
+    try {
+      const response = await releasePaymentReservation(source, failure);
+      const responseBody = await response.json().catch(function () { return null; });
+      console.log("PAYMENT FAILURE RESPONSE:", {
+        status: response.status,
+        body: responseBody,
+      });
+    } catch (error) {
+      console.error("PAYMENT FAILURE REQUEST ERROR:", error);
+    }
+
+    console.log("PAYMENT REDIRECT DECISION: verification/payment failure → React home");
+    window.location.href = "http://localhost:5173/";
+  }
+
+  var options = {
+    key: "<%= razorpayKey %>",
+    amount: "<%= order.amount * 100 %>",
+    currency: "INR",
+    name: "ApnaMart",
+    description: "Order Payment",
+    order_id: "<%= order.razorpay.orderId %>",
+    modal: {
+      ondismiss: async function () {
+        if (!verificationStarted) {
+          await returnToReactHomeAfterFailure("modal-dismissed");
+        }
+      }
+    },
+    handler: async function (response) {
+      verificationStarted = true;
+      console.log("RAZORPAY CALLBACK RESPONSE:", {
+        ...response,
+        razorpay_signature: maskSignature(response.razorpay_signature),
+      });
+      console.log("RAZORPAY CALLBACK FIELDS:", {
+        razorpay_order_id: response.razorpay_order_id,
+        razorpay_payment_id: response.razorpay_payment_id,
+        signaturePresent: Boolean(response.razorpay_signature),
+      });
+
+      try {
+        console.log("PAYMENT VERIFY REQUEST:", {
+          url: "/payment/verify",
+          credentialsMode: "same-origin",
+        });
+
+        const result = await fetch("/payment/verify", {
+          method: "POST",
+          credentials: "same-origin",
+          headers: {
+            "Content-Type": "application/json",
+            "X-Client": "react",
+          },
+          body: JSON.stringify(response)
+        });
+        const rawBody = await result.text();
+        let body;
+        try {
+          body = JSON.parse(rawBody);
+        } catch {
+          body = rawBody;
+        }
+
+        console.log("PAYMENT VERIFY RESPONSE:", {
+          status: result.status,
+          body,
+        });
+
+        if (result.ok && body?.success === true) {
+          console.log("PAYMENT REDIRECT DECISION: verified → React order success");
+          window.location.href = "http://localhost:5173/order-success";
+          return;
+        }
+
+        console.error("PAYMENT VERIFICATION REJECTED:", body);
+        await returnToReactHomeAfterFailure("verification-rejected", {
+          status: result.status,
+          response: body,
+        });
+      } catch (error) {
+        console.error("PAYMENT VERIFY REQUEST ERROR:", error);
+        await returnToReactHomeAfterFailure("verification-request-error", {
+          message: error.message,
+        });
+      }
+    }
+  };
+
+  var rzp = new Razorpay(options);
+  rzp.on("payment.failed", async function (response) {
+    if (!verificationStarted) {
+      var failure = summarizePaymentFailure(response);
+      console.error("RAZORPAY PAYMENT FAILED BEFORE VERIFICATION:", failure);
+      await returnToReactHomeAfterFailure("razorpay-payment-failed", failure);
+    }
+  });
+  rzp.open();
+</script>
+
+</body>
+</html>

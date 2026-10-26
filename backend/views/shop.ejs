@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>ApnaMart | Shop</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    .card-hover:hover {
+      transform: translateY(-4px);
+      transition: 0.3s ease;
+    }
+  </style>
+  <script>
+  tailwind.config = {
+    darkMode: 'class'
+  }
+</script>
+<script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<body class="bg-gray-50">
+
+<%- include("partials/navbar") %>
+
+
+
+
+
+  <!-- MAIN -->
+ <div class="max-w-7xl mx-auto px-6 py-10 flex gap-10 bg-green-100  ">
+
+    <!-- SIDEBAR -->
+    <aside class="w-64 space-y-10">
+
+      <!-- SORT -->
+      <form method="GET" action="/shop">
+        <label class="text-sm font-semibold block mb-2">Sort by</label>
+        <select
+          name="sort"
+          onchange="this.form.submit()"
+          class="w-full bord  der rounded px-3 py-2 text-sm">
+
+          <option value="">Popular</option>
+          <option value="price_low" <%= sort === 'price_low' ? 'selected' : '' %>>
+            Price: Low to High
+          </option>
+          <option value="price_high" <%= sort === 'price_high' ? 'selected' : '' %>>
+            Price: High to Low
+          </option>
+        </select>
+      </form>
+
+      <!-- COLLECTION -->
+      <div>
+        <h3 class="font-semibold mb-3">Collection</h3>
+        <ul class="space-y-2 text-sm text-gray-700">
+          <li>
+            <a href="/shop" class="hover:underline">All Products</a>
+          </li>
+          <li>
+            <a href="/shop?collection=new" class="hover:underline">
+              New Collection
+            </a>
+          </li>
+          <li>
+            <a href="/shop?collection=discount" class="hover:underline">
+              Discounted Products
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- FILTER -->
+      <div>
+        <h3 class="font-semibold mb-3">Filter by</h3>
+        <ul class="space-y-2 text-sm text-gray-700">
+          <li>
+            <a href="/shop?filter=discount" class="hover:underline">
+              Discount
+            </a>
+          </li>
+        </ul>
+      </div>
+
+    </aside>
+
+    <!-- PRODUCTS -->
+    <section class="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+
+      <% if (products.length === 0) { %>
+        <p class="text-gray-500">No products found.</p>
+      <% } %>
+
+      <% products.forEach(function(product) { %>
+
+        <div class="bg-white rounded shadow card-hover overflow-hidden">
+
+          <!-- IMAGE -->
+     <!-- IMAGE -->
+<div
+    class="relative h-56 w-full overflow-hidden rounded-t bg-stone-100">
+
+    <% if (product.image) { %>
+        <img
+            src="<%= product.image %>"
+            alt="<%= product.name %>"
+            class="w-full h-full object-cover" />
+    <% } %>
+
+</div>
+<!-- INFO -->
+<div
+    class="px-4 py-3 flex justify-between items-center bg-slate-950 text-white">
+
+    <div>
+        <h4 class="text-sm font-semibold break-words uppercase">
+            <%= product.name %>
+        </h4>
+
+        <p class="text-sm font-medium mt-1">
+            ₹ <%= product.price %>
+        </p>
+    </div>
+
+    <a
+        href="/addtocart/<%= product._id %>"
+        class="w-10 h-10 rounded-full bg-white text-slate-950 flex items-center justify-center font-bold text-xl hover:scale-110 transition">
+
+        +
+
+    </a>
+
+</div>
+
+<!-- DISCOUNT STRIP (BELOW PANEL) -->
+<% if (product.discount && product.discount > 0) { %>
+  <div class="px-4 py-2 text-sm font-semibold text-center bg-green-100 text-green-700">
+    🎉 <%= product.discount %>% OFF available
+  </div>
+<% } %>
+
+        </div>
+
+      <% }); %>
+
+    </section>
+
+  </div>
+
+</body>
+</html>

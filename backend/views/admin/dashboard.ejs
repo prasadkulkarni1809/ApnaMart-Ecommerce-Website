@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Dashboard</title>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Smooth animation -->
+  <style>
+    .card-hover:hover {
+      transform: translateY(-5px) scale(1.02);
+      transition: 0.3s ease;
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-white min-h-screen">
+
+<div class="flex">
+
+    <!-- ================= SIDEBAR ================= -->
+<!-- ================= SIDEBAR ================= -->
+<aside
+    id="sidebar"
+    class="fixed top-0 left-0 h-screen w-64 bg-slate-900 border-r border-slate-800 shadow-2xl z-50 transform transition-transform duration-300 translate-x-0">
+
+    <div class="border-b border-slate-800 px-6 py-6">
+
+        <div class="flex items-center gap-4">
+
+            <div
+            class="logo-box w-14 h-14 rounded-2xl bg-cyan-600 flex items-center justify-center text-3xl flex-shrink-0">
+
+                🛍
+
+            </div>
+
+            <div class="sidebar-text">
+
+                <h1 class="text-3xl font-bold">
+
+                    Seller Panel
+
+                </h1>
+
+                <p class="text-slate-400 text-sm mt-1">
+
+                    Welcome back,
+
+                </p>
+
+                <p class="text-cyan-400 font-semibold">
+
+                    <%= user.fullname %>
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ================= MENU ================= -->
+
+    <nav class="flex-1 mt-6 px-3 space-y-2">
+
+        <!-- Dashboard -->
+
+        <a
+        href="/owners/admin"
+        class="menu-item flex items-center gap-4 px-4 py-4 rounded-2xl bg-cyan-600 hover:bg-cyan-700 transition">
+
+            <span class="text-2xl flex-shrink-0">
+
+                📊
+
+            </span>
+
+            <span class="sidebar-text font-semibold">
+
+                Dashboard
+
+            </span>
+
+        </a>
+
+        <!-- Products -->
+<a class="menu-item flex items-center gap-4 px-4 py-4 rounded-2xl hover:bg-slate-800 transition">
+
+    <span class="menu-icon text-2xl flex-shrink-0">
+
+        📦
+
+    </span>
+
+    <span class="sidebar-text">
+
+        Products
+
+    </span>
+
+</a>
+
+        <!-- Add Product -->
+
+        <a
+        href="/owners/admin/create"
+        class="menu-item flex items-center gap-4 px-4 py-4 rounded-2xl hover:bg-slate-800 transition">
+
+            <span class="text-2xl flex-shrink-0">
+
+                ➕
+
+            </span>
+
+            <span class="sidebar-text">
+
+                Add Product
+
+            </span>
+
+        </a>
+
+        <!-- Orders -->
+
+        <a
+        href="/owners/admin/orders"
+        class="menu-item flex items-center gap-4 px-4 py-4 rounded-2xl hover:bg-slate-800 transition">
+
+            <span class="text-2xl flex-shrink-0">
+
+                🛒
+
+            </span>
+
+            <span class="sidebar-text">
+
+                Orders
+
+            </span>
+
+        </a>
+
+        <!-- Customers -->
+
+        <a
+        href="#"
+        class="menu-item flex items-center gap-4 px-4 py-4 rounded-2xl hover:bg-slate-800 transition">
+
+            <span class="text-2xl flex-shrink-0">
+
+                👥
+
+            </span>
+
+            <span class="sidebar-text flex-1">
+
+                Customers
+
+            </span>
+
+            <span
+            class="sidebar-text text-xs bg-slate-700 px-2 py-1 rounded-full">
+
+                Soon
+
+            </span>
+
+        </a>
+
+        <!-- Analytics -->
+
+        <a
+        href="#"
+        class="menu-item flex items-center gap-4 px-4 py-4 rounded-2xl hover:bg-slate-800 transition">
+
+            <span class="text-2xl flex-shrink-0">
+
+                📈
+
+            </span>
+
+            <span class="sidebar-text flex-1">
+
+                Analytics
+
+            </span>
+
+            <span
+            class="sidebar-text text-xs bg-slate-700 px-2 py-1 rounded-full">
+
+                Soon
+
+            </span>
+
+        </a>
+
+    </nav>
+
+    <!-- ================= FOOTER ================= -->
+
+    <div class="border-t border-slate-800 p-4">
+
+        <a
+        href="/logout"
+        class="menu-item flex items-center justify-center gap-3 bg-red-500 hover:bg-red-600 transition rounded-2xl py-4 font-semibold">
+
+            <span class="text-xl">
+
+                🚪
+
+            </span>
+
+            <span class="sidebar-text">
+
+                Logout
+
+            </span>
+
+        </a>
+
+    </div>
+
+</aside>
+
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+
+<main
+    id="mainContent"
+    class="flex-1 transition-all duration-300"
+    style="margin-left:256px;">
+   
+         <!-- Top Header -->
+       <header class="sticky top-0 z-20 bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
+
+    <div class="px-8 py-4 flex justify-between items-center">
+        <!-- LEFT -->
+
+        <div class="flex items-center gap-5">
+
+            <!-- Sidebar Toggle -->
+
+            <button
+                id="toggleSidebar"
+                class="w-11 h-11 rounded-xl bg-slate-800 hover:bg-cyan-600 transition flex items-center justify-center text-xl">
+
+                ☰
+
+            </button>
+
+            <div>
+
+                <h2 class="text-3xl font-bold">
+
+                    Dashboard Overview 🚀
+
+                </h2>
+
+              <p class="text-sm text-slate-400 mt-1">
+
+                    Monitor your products, orders and revenue.
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT -->
+
+        <div class="flex items-center gap-4">
+
+            <div class="w-12 h-12 rounded-full bg-cyan-500 flex items-center justify-center text-xl font-bold">
+
+                <%= user.fullname.charAt(0).toUpperCase() %>
+
+            </div>
+
+            <div>
+
+                <p class="font-semibold">
+
+                    <%= user.fullname %>
+
+                </p>
+
+               <p class="text-sm text-slate-400 mt-1">
+
+                    Seller
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+     <!-- ================= DASHBOARD CARDS ================= -->
+
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8">
+
+    <!-- Products -->
+
+    <div
+        class="group bg-slate-800 border border-slate-800 rounded-3xl p-6 hover:border-cyan-500 transition duration-300 hover:-translate-y-1">
+
+        <div class="flex justify-between items-center">
+
+            <div>
+
+                <p class="text-slate-400 text-sm uppercase tracking-wider">
+
+                    Products
+
+                </p>
+
+                <h2 class="text-3xl font-bold mt-4">
+
+                    <%= totalProducts %>
+
+                </h2>
+
+            </div>
+
+            <div
+                class="w-16 h-16 rounded-2xl bg-cyan-500/20 flex items-center justify-center text-3xl">
+
+                📦
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Orders -->
+
+    <div
+        class="group bg-slate-900 border border-slate-800 rounded-3xl p-6 hover:border-green-500 transition duration-300 hover:-translate-y-1">
+
+        <div class="flex justify-between items-center">
+
+            <div>
+
+                <p class="text-slate-400 text-sm uppercase tracking-wider">
+
+                    Orders
+
+                </p>
+
+                <h2 class="text-3xl font-bold mt-4">
+
+                    <%= totalOrders %>
+
+                </h2>
+
+            </div>
+
+            <div
+                class="w-16 h-16 rounded-2xl bg-green-500/20 flex items-center justify-center text-3xl">
+
+                🛒
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Customers -->
+
+    <div
+        class="group bg-slate-900 border border-slate-800 rounded-3xl p-6 hover:border-pink-500 transition duration-300 hover:-translate-y-1">
+
+        <div class="flex justify-between items-center">
+
+            <div>
+
+                <p class="text-slate-400 text-sm uppercase tracking-wider">
+
+                    Customers
+
+                </p>
+
+                <h2 class="text-3xl font-bold mt-4">
+
+                    <%= totalUsers %>
+
+                </h2>
+
+            </div>
+
+            <div
+                class="w-16 h-16 rounded-2xl bg-pink-500/20 flex items-center justify-center text-3xl">
+
+                👥
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Revenue -->
+
+    <div
+        class="group bg-slate-900 border border-slate-800 rounded-3xl p-6 hover:border-yellow-500 transition duration-300 hover:-translate-y-1">
+
+        <div class="flex justify-between items-center">
+
+            <div>
+
+                <p class="text-slate-400 text-sm uppercase tracking-wider">
+
+                    Revenue
+
+                </p>
+
+                <h2 class="text-3xl font-bold mt-4 text-green-400">
+
+                    ₹<%= totalRevenue %>
+
+                </h2>
+
+            </div>
+
+            <div
+                class="w-16 h-16 rounded-2xl bg-yellow-500/20 flex items-center justify-center text-3xl">
+
+                💰
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- ================= QUICK ACCESS ================= -->
+
+<div class="mt-12">
+
+    <div class="flex items-center justify-between mb-6">
+
+        <div>
+
+            <h2 class="text-3xl font-bold">
+
+                Quick Access ⚡
+
+            </h2>
+
+            <p class="text-slate-400 mt-1">
+
+                Frequently used seller actions
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+
+        <!-- Add Product -->
+
+        <a
+            href="/owners/admin/create"
+            class="group bg-slate-900 border border-slate-800 rounded-3xl p-6 hover:border-cyan-500 transition duration-300 hover:-translate-y-1">
+
+            <div class="w-16 h-16 rounded-2xl bg-cyan-500/20 flex items-center justify-center text-3xl mb-5">
+
+                ➕
+
+            </div>
+
+            <h3 class="text-xl font-bold">
+
+                Add Product
+
+            </h3>
+
+            <p class="text-slate-400 mt-2">
+
+                Create and publish a new product in your store.
+
+            </p>
+
+        </a>
+
+        <!-- Manage Products -->
+
+        <a
+            href="/owners/admin/products"
+            class="group bg-slate-900 border border-slate-800 rounded-3xl p-6 hover:border-green-500 transition duration-300 hover:-translate-y-1">
+
+            <div class="w-16 h-16 rounded-2xl bg-green-500/20 flex items-center justify-center text-3xl mb-5">
+
+                📦
+
+            </div>
+
+            <h3 class="text-xl font-bold">
+
+                Manage Products
+
+            </h3>
+
+            <p class="text-slate-400 mt-2">
+
+                Edit, delete and organize your products.
+
+            </p>
+
+        </a>
+
+        <!-- Orders -->
+
+        <a
+            href="/owners/admin/orders"
+            class="group bg-slate-900 border border-slate-800 rounded-3xl p-6 hover:border-purple-500 transition duration-300 hover:-translate-y-1">
+
+            <div class="w-16 h-16 rounded-2xl bg-purple-500/20 flex items-center justify-center text-3xl mb-5">
+
+                🛒
+
+            </div>
+
+            <h3 class="text-xl font-bold">
+
+                Manage Orders
+
+            </h3>
+
+            <p class="text-slate-400 mt-2">
+
+                Update deliveries, tracking and order status.
+
+            </p>
+
+        </a>
+
+    </div>
+
+</div>
+
+<!-- ================= RECENT ORDERS ================= -->
+
+<div class="mt-14">
+
+    <!-- Header -->
+
+    <div class="flex justify-between items-center mb-6">
+
+        <div>
+
+            <h2 class="text-3xl font-bold">
+
+                Recent Orders 📦
+
+            </h2>
+
+            <p class="text-slate-400 mt-1">
+
+                Latest customer purchases
+
+            </p>
+
+        </div>
+
+        <a
+            href="/owners/admin/orders"
+            class="bg-cyan-600 hover:bg-cyan-700 px-5 py-3 rounded-xl font-semibold transition">
+
+            View All →
+
+        </a>
+
+    </div>
+
+    <!-- Table -->
+
+    <div class="bg-slate-900 rounded-3xl border border-slate-800 overflow-hidden shadow-xl">
+
+        <table class="w-full">
+
+            <thead class="bg-slate-800">
+
+                <tr>
+
+                    <th class="text-left px-6 py-5">Product</th>
+
+                    <th class="text-left px-6 py-5">Customer</th>
+
+                    <th class="text-center px-6 py-5">Amount</th>
+
+                    <th class="text-center px-6 py-5">Payment</th>
+
+                    <th class="text-center px-6 py-5">Status</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <% if(recentOrders.length>0){ %>
+
+                    <% recentOrders.forEach(order=>{ %>
+
+                        <tr class="border-t border-slate-800 hover:bg-slate-800 transition">
+
+                            <!-- Product -->
+
+                            <td class="px-6 py-5">
+
+                                <div class="flex items-center gap-4">
+
+                                    <img
+                                        src="<%= order.items[0].product?.image %>"
+                                        class="w-16 h-16 rounded-xl object-cover bg-white">
+
+                                    <div>
+
+                                        <h3 class="font-semibold text-lg">
+
+                                            <%= order.items[0].product?.name %>
+
+                                        </h3>
+
+                                        <p class="text-sm text-slate-400">
+
+                                            Order #
+                                            <%= order._id.toString().slice(-6).toUpperCase() %>
+
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <!-- Customer -->
+
+                            <td class="px-6 py-5">
+
+                                <h3 class="font-semibold">
+
+                                    <%= order.user?.fullname || "Customer" %>
+
+                                </h3>
+
+                                <p class="text-sm text-slate-400">
+
+                                    <%= order.user?.email || "" %>
+
+                                </p>
+
+                            </td>
+
+                            <!-- Amount -->
+
+                            <td class="px-6 py-5 text-center">
+
+                                <span class="font-bold text-green-400 text-lg">
+
+                                    ₹<%= order.amount %>
+
+                                </span>
+
+                            </td>
+
+                            <!-- Payment -->
+
+                            <td class="text-center">
+
+                                <% if(order.paymentStatus==="PAID"){ %>
+
+                                    <span class="bg-green-500/20 text-green-400 px-4 py-2 rounded-full text-sm">
+
+                                        Paid
+
+                                    </span>
+
+                                <% }else{ %>
+
+                                    <span class="bg-yellow-500/20 text-yellow-400 px-4 py-2 rounded-full text-sm">
+
+                                        Pending
+
+                                    </span>
+
+                                <% } %>
+
+                            </td>
+
+                            <!-- Status -->
+
+                            <td class="text-center">
+
+                                <% if(order.status==="DELIVERED"){ %>
+
+                                    <span class="bg-green-500/20 text-green-400 px-4 py-2 rounded-full">
+
+                                        Delivered
+
+                                    </span>
+
+                                <% }else if(order.status==="SHIPPED"){ %>
+
+                                    <span class="bg-blue-500/20 text-blue-400 px-4 py-2 rounded-full">
+
+                                        Shipped
+
+                                    </span>
+
+                                <% }else if(order.status==="PACKED"){ %>
+
+                                    <span class="bg-orange-500/20 text-orange-400 px-4 py-2 rounded-full">
+
+                                        Packed
+
+                                    </span>
+
+                                <% }else if(order.status==="OUT_FOR_DELIVERY"){ %>
+
+                                    <span class="bg-purple-500/20 text-purple-400 px-4 py-2 rounded-full">
+
+                                        Out For Delivery
+
+                                    </span>
+
+                                <% }else{ %>
+
+                                    <span class="bg-yellow-500/20 text-yellow-400 px-4 py-2 rounded-full">
+
+                                        <%= order.status %>
+
+                                    </span>
+
+                                <% } %>
+
+                            </td>
+
+                        </tr>
+
+                    <% }) %>
+
+                <% }else{ %>
+
+                    <tr>
+
+                        <td colspan="5" class="py-20 text-center">
+
+                            <div class="flex flex-col items-center">
+
+                                <div class="text-6xl mb-5">
+
+                                    📦
+
+                                </div>
+
+                                <h3 class="text-2xl font-bold">
+
+                                    No Recent Orders
+
+                                </h3>
+
+                                <p class="text-slate-400 mt-2">
+
+                                    Orders will appear here after customers purchase.
+
+                                </p>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                <% } %>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<!-- ================= PERFORMANCE INSIGHTS ================= -->
+ <!-- ================= STORE SUMMARY ================= -->
+
+<div class="mt-14">
+
+    <div class="mb-6">
+
+        <h2 class="text-3xl font-bold">
+
+            Store Summary 🏪
+
+        </h2>
+
+        <p class="text-slate-400 mt-2">
+
+            A quick overview of your seller account.
+
+        </p>
+
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-8">
+
+        <!-- Store Information -->
+
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8">
+
+            <div class="flex items-center gap-5 mb-6">
+
+                <div class="w-16 h-16 rounded-full bg-cyan-500 flex items-center justify-center text-2xl font-bold">
+
+                    <%= user.fullname.charAt(0).toUpperCase() %>
+
+                </div>
+
+                <div>
+
+                    <h3 class="text-2xl font-bold">
+
+                        <%= user.fullname %>
+
+                    </h3>
+
+                    <p class="text-slate-400">
+
+                        Seller Account
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="space-y-4">
+
+                <div class="flex justify-between">
+
+                    <span class="text-slate-400">
+
+                        Email
+
+                    </span>
+
+                    <span>
+
+                        <%= user.email %>
+
+                    </span>
+
+                </div>
+
+                <div class="flex justify-between">
+
+                    <span class="text-slate-400">
+
+                        GSTIN
+
+                    </span>
+
+                    <span>
+
+                        <%= user.gstin || "Not Added" %>
+
+                    </span>
+
+                </div>
+
+                <div class="flex justify-between">
+
+                    <span class="text-slate-400">
+
+                        Products
+
+                    </span>
+
+                    <span>
+
+                        <%= totalProducts %>
+
+                    </span>
+
+                </div>
+
+                <div class="flex justify-between">
+
+                    <span class="text-slate-400">
+
+                        Revenue
+
+                    </span>
+
+                    <span class="text-green-400 font-semibold">
+
+                        ₹<%= totalRevenue %>
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Store Status -->
+
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8">
+
+            <h3 class="text-2xl font-bold mb-6">
+
+                Store Health
+
+            </h3>
+
+            <div class="space-y-5">
+
+                <div class="flex justify-between items-center">
+
+                    <span>
+
+                        Products Available
+
+                    </span>
+
+                    <span class="text-green-400 font-semibold">
+
+                        ✔ Active
+
+                    </span>
+
+                </div>
+
+                <div class="flex justify-between items-center">
+
+                    <span>
+
+                        Orders Receiving
+
+                    </span>
+
+                    <span class="text-green-400 font-semibold">
+
+                        ✔ Running
+
+                    </span>
+
+                </div>
+
+                <div class="flex justify-between items-center">
+
+                    <span>
+
+                        Seller Account
+
+                    </span>
+
+                    <span class="text-green-400 font-semibold">
+
+                        ✔ Verified
+
+                    </span>
+
+                </div>
+
+                <div class="flex justify-between items-center">
+
+                    <span>
+
+                        Dashboard Status
+
+                    </span>
+
+                    <span class="text-cyan-400 font-semibold">
+
+                        Online
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="mt-14">
+
+    <div class="mb-6">
+
+        <h2 class="text-3xl font-bold">
+
+            Performance Insights 📈
+
+        </h2>
+
+        <p class="text-slate-400 mt-1">
+
+            Quick overview of your store performance
+
+        </p>
+
+    </div>
+
+    <div class="grid lg:grid-cols-3 gap-8">
+
+        <!-- Revenue -->
+
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-7">
+
+            <div class="flex justify-between items-center">
+
+                <h3 class="text-xl font-semibold">
+
+                    Revenue
+
+                </h3>
+
+                <span class="text-3xl">
+
+                    💰
+
+                </span>
+
+            </div>
+
+            <h2 class="text-4xl font-bold text-green-400 mt-6">
+
+                ₹<%= totalRevenue %>
+
+            </h2>
+
+            <p class="text-slate-400 mt-3">
+
+                Total earnings from your products.
+
+            </p>
+
+        </div>
+
+        <!-- Orders -->
+
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-7">
+
+            <div class="flex justify-between items-center">
+
+                <h3 class="text-xl font-semibold">
+
+                    Total Orders
+
+                </h3>
+
+                <span class="text-3xl">
+
+                    🛒
+
+                </span>
+
+            </div>
+
+            <h2 class="text-4xl font-bold text-cyan-400 mt-6">
+
+                <%= totalOrders %>
+
+            </h2>
+
+            <p class="text-slate-400 mt-3">
+
+                Orders received from customers.
+
+            </p>
+
+        </div>
+
+        <!-- Products -->
+
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-7">
+
+            <div class="flex justify-between items-center">
+
+                <h3 class="text-xl font-semibold">
+
+                    Products Listed
+
+                </h3>
+
+                <span class="text-3xl">
+
+                    📦
+
+                </span>
+
+            </div>
+
+            <h2 class="text-4xl font-bold text-orange-400 mt-6">
+
+                <%= totalProducts %>
+
+            </h2>
+
+            <p class="text-slate-400 mt-3">
+
+                Products currently available in your store.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+</main>
+  </div><script>
+
+const sidebar = document.getElementById("sidebar");
+const mainContent = document.getElementById("mainContent");
+const toggleBtn = document.getElementById("toggleSidebar");
+
+let open = true;
+
+toggleBtn.addEventListener("click", () => {
+
+    open = !open;
+
+    if(open){
+
+        sidebar.classList.remove("-translate-x-full");
+
+        sidebar.classList.add("translate-x-0");
+
+        mainContent.style.marginLeft="256px";
+
+    }
+
+    else{
+
+        sidebar.classList.remove("translate-x-0");
+
+        sidebar.classList.add("-translate-x-full");
+
+        mainContent.style.marginLeft="0px";
+
+    }
+
+});
+
+</script>
+
+</body>

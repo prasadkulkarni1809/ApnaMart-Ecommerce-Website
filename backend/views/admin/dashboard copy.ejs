@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Dashboard</title>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Smooth animation -->
+  <style>
+    .card-hover:hover {
+      transform: translateY(-5px) scale(1.02);
+      transition: 0.3s ease;
+    }
+  </style>
+</head>
+
+<body class="bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white min-h-screen">
+
+ <!-- Navbar -->
+<div class="flex justify-between items-center px-8 py-4 bg-black/40 backdrop-blur-md shadow-md">
+
+    <!-- Left -->
+    <div>
+
+        <h1 class="text-2xl font-bold tracking-wide">
+            🛍 Admin Panel
+        </h1>
+
+        <p class="text-sm text-gray-300 mt-1">
+            Welcome,
+            <span class="font-semibold text-cyan-400">
+                <%= user.fullname %>
+            </span>
+        </p>
+
+    </div>
+
+    <!-- Right -->
+    <div class="flex items-center gap-4">
+
+        <div class="hidden md:flex items-center gap-3 bg-white/10 px-4 py-2 rounded-xl">
+
+            <div class="w-10 h-10 rounded-full bg-cyan-500 flex items-center justify-center font-bold text-lg">
+
+                <%= user.fullname.charAt(0).toUpperCase() %>
+
+            </div>
+
+            <div>
+
+                <p class="font-semibold">
+                    <%= user.fullname %>
+                </p>
+
+                <p class="text-xs text-gray-300">
+                    Administrator
+                </p>
+
+            </div>
+
+        </div>
+
+        <a
+            href="/logout"
+            class="bg-red-500 px-5 py-2 rounded-lg hover:bg-red-600 transition font-semibold">
+
+            Logout
+
+        </a>
+
+    </div>
+
+</div>
+
+  <!-- Main -->
+  <div class="p-8">
+
+    <!-- Title -->
+    <h2 class="text-3xl font-semibold mb-6">Dashboard Overview 🚀</h2>
+
+    <!-- Stats -->
+     <a href="/owners/admin/orders">
+   Orders
+</a>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+
+      <div class="card-hover bg-gradient-to-r from-indigo-500 to-purple-600 p-6 rounded-xl shadow-lg">
+        <h3 class="text-lg">Products</h3>
+        <p class="text-3xl font-bold mt-2"><%= totalProducts %></p>
+      </div>
+
+      <div class="card-hover bg-gradient-to-r from-green-500 to-emerald-600 p-6 rounded-xl shadow-lg">
+        <h3 class="text-lg">Orders</h3>
+        <p class="text-3xl font-bold mt-2"><%= totalOrders %></p>
+      </div>
+
+      <div class="card-hover bg-gradient-to-r from-pink-500 to-red-500 p-6 rounded-xl shadow-lg">
+        <h3 class="text-lg">Users</h3>
+        <p class="text-3xl font-bold mt-2"><%= totalUsers %></p>
+      </div>
+
+      <div class="card-hover bg-gradient-to-r from-yellow-400 to-orange-500 p-6 rounded-xl shadow-lg">
+        <h3 class="text-lg">Revenue</h3>
+        <p class="text-3xl font-bold mt-2">₹<%= totalRevenue %></p>
+      </div>
+
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="mt-10">
+      <h2 class="text-2xl mb-4 font-semibold">Quick Actions ⚡</h2>
+
+      <div class="flex flex-wrap gap-4">
+
+        <a href="/owners/admin/create"
+           class="bg-indigo-600 px-6 py-3 rounded-lg hover:bg-indigo-700 transition shadow-lg">
+          ➕ Add Product
+        </a>
+
+        <a href="/owners/admin/products"
+           class="bg-green-600 px-6 py-3 rounded-lg hover:bg-green-700 transition shadow-lg">
+          📦 Manage Products
+        </a>
+
+        <a href="/owners/admin/orders"
+           class="bg-pink-600 px-6 py-3 rounded-lg hover:bg-pink-700 transition shadow-lg">
+          📑 Orders
+        </a>
+
+      </div>
+    </div>
+<!-- ================= Recent Orders ================= -->
+
+<div class="mt-12">
+
+    <div class="flex items-center justify-between mb-5">
+
+        <div>
+
+            <h2 class="text-3xl font-bold">
+                Recent Orders 📦
+            </h2>
+
+            <p class="text-gray-400 mt-1">
+                Latest customer orders for your store
+            </p>
+
+        </div>
+
+        <a
+            href="/owners/admin/orders"
+            class="bg-cyan-600 hover:bg-cyan-700 transition px-5 py-3 rounded-xl font-semibold shadow-lg">
+
+            View All Orders →
+
+        </a>
+
+    </div>
+
+    <div class="overflow-hidden rounded-2xl bg-white/10 backdrop-blur-md border border-white/10 shadow-xl">
+
+        <table class="w-full">
+
+            <thead class="bg-white/10 text-gray-200">
+
+                <tr>
+
+                    <th class="px-6 py-4 text-left">Product</th>
+
+                    <th class="px-6 py-4 text-left">Customer</th>
+
+                    <th class="px-6 py-4 text-center">Amount</th>
+
+                    <th class="px-6 py-4 text-center">Payment</th>
+
+                    <th class="px-6 py-4 text-center">Status</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <% if(recentOrders.length > 0){ %>
+
+                    <% recentOrders.forEach(order => { %>
+
+                    <tr class="border-t border-white/10 hover:bg-white/5 transition">
+
+                        <!-- PRODUCT -->
+
+                        <td class="px-6 py-5">
+
+                            <div class="flex items-center gap-4">
+
+                                <img
+                                    src="<%= order.items[0].product?.image %>"
+                                    alt="Product"
+                                    class="w-16 h-16 rounded-xl object-cover border border-white/20 shadow">
+
+                                <div>
+
+                                    <h3 class="font-semibold text-white">
+
+                                        <%= order.items[0].product?.name || "Product Deleted" %>
+
+                                    </h3>
+
+                                    <p class="text-sm text-gray-400 mt-1">
+
+                                        Order #
+                                        <%= order._id.toString().slice(-6).toUpperCase() %>
+
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <!-- CUSTOMER -->
+
+                        <td class="px-6 py-5">
+
+                            <div>
+
+                                <h3 class="font-semibold text-white">
+
+                                    <%= order.user?.fullname || "Unknown Customer" %>
+
+                                </h3>
+
+                                <p class="text-sm text-gray-400">
+
+                                    <%= order.user?.email || "" %>
+
+                                </p>
+
+                            </div>
+
+                        </td>
+
+                        <!-- AMOUNT -->
+
+                        <td class="px-6 py-5 text-center">
+
+                            <span class="font-bold text-green-400 text-lg">
+
+                                ₹<%= order.amount %>
+
+                            </span>
+
+                        </td>
+
+                        <!-- PAYMENT -->
+
+                        <td class="px-6 py-5 text-center">
+
+                            <span class="px-4 py-2 rounded-full text-sm font-semibold
+
+                            <%= order.paymentStatus==="PAID"
+
+                            ? "bg-green-500/20 text-green-400"
+
+                            : "bg-yellow-500/20 text-yellow-400" %>">
+
+                                <%= order.paymentStatus %>
+
+                            </span>
+
+                        </td>
+
+                        <!-- STATUS -->
+
+                        <td class="px-6 py-5 text-center">
+
+                            <span class="px-4 py-2 rounded-full text-sm font-semibold
+
+                            <%= order.status==="DELIVERED"
+
+                            ? "bg-green-500/20 text-green-400"
+
+                            : order.status==="SHIPPED"
+
+                            ? "bg-blue-500/20 text-blue-400"
+
+                            : order.status==="OUT_FOR_DELIVERY"
+
+                            ? "bg-purple-500/20 text-purple-400"
+
+                            : order.status==="PACKED"
+
+                            ? "bg-orange-500/20 text-orange-400"
+
+                            : order.status==="REJECTED"
+
+                            ? "bg-red-500/20 text-red-400"
+
+                            : "bg-yellow-500/20 text-yellow-400" %>">
+
+                                <%= order.status %>
+
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                    <% }) %>
+
+                <% } else { %>
+
+                    <tr>
+
+                        <td colspan="5" class="py-16 text-center">
+
+                            <div class="flex flex-col items-center gap-4">
+
+                                <div class="text-6xl">
+                                    📦
+                                </div>
+
+                                <h3 class="text-xl font-semibold text-gray-300">
+                                    No Recent Orders
+                                </h3>
+
+                                <p class="text-gray-500">
+                                    Orders will appear here once customers start purchasing.
+                                </p>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                <% } %>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+  </div>
+
+</body>
+</html>

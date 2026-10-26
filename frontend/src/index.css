@@ -1,0 +1,90 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+html {
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+html.dark body {
+  background-color: #0b1220;
+  color: #e5e7eb;
+}
+
+html.dark nav,
+html.dark .bg-white {
+  background-color: #111827;
+}
+
+html.dark .bg-gray-50,
+html.dark .bg-gray-100 {
+  background-color: #1f2937;
+}
+
+html.dark .bg-blue-50 {
+  background-color: #172554;
+}
+
+html.dark .bg-green-50 {
+  background-color: #052e16;
+}
+
+html.dark .bg-red-50 {
+  background-color: #450a0a;
+}
+
+html.dark .text-gray-900,
+html.dark .text-gray-800 {
+  color: #f3f4f6;
+}
+
+html.dark .text-gray-700,
+html.dark .text-gray-600,
+html.dark .text-gray-500 {
+  color: #cbd5e1;
+}
+
+html.dark .text-blue-700 {
+  color: #bfdbfe;
+}
+
+html.dark .text-green-700 {
+  color: #bbf7d0;
+}
+
+html.dark .text-red-700 {
+  color: #fecaca;
+}
+
+html.dark .border,
+html.dark [class*="border-gray-"] {
+  border-color: #374151;
+}
+
+html.dark input,
+html.dark textarea,
+html.dark select {
+  border-color: #4b5563;
+  background-color: #111827;
+  color: #f3f4f6;
+}
+
+html.dark input::placeholder,
+html.dark textarea::placeholder {
+  color: #9ca3af;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
