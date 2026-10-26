@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import API_BASE_URL from "../../config/api";
 import { useCart } from "../../context/CartContext";
 import { useAuth } from "../../context/AuthContext";
 import Toast from "../../components/common/Toast";
@@ -31,7 +32,7 @@ function ProductDetails() {
     try {
       setAddingToCart(true);
       const response = await axios.post(
-        "http://localhost:3000/api/cart/add",
+        `${API_BASE_URL}/api/cart/add`,
         {
           productId: product._id,
           quantity,
@@ -65,7 +66,7 @@ function ProductDetails() {
       setWishlistLoading(true);
 
       const response = await axios.post(
-        "http://localhost:3000/api/wishlist/toggle",
+        `${API_BASE_URL}/api/wishlist/toggle`,
         {
           productId: product._id,
         },
@@ -111,7 +112,7 @@ function ProductDetails() {
         setError("");
 
         const response = await axios.get(
-          `http://localhost:3000/api/products/${id}`
+          `${API_BASE_URL}/api/products/${id}`
         );
 
         console.log("PRODUCT DETAILS:", response.data);
@@ -140,7 +141,7 @@ function ProductDetails() {
     const checkWishlist = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/wishlist/status/${product._id}`,
+          `${API_BASE_URL}/api/wishlist/status/${product._id}`,
           {
             withCredentials: true,
           }

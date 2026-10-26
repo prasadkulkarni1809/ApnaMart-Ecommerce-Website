@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
+import API_BASE_URL from "../../../config/api";
 
 function CreateProduct() {
   const [categories, setCategories] = useState([]);
@@ -26,7 +27,7 @@ function CreateProduct() {
     const fetchCategories = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/categories"
+          `${API_BASE_URL}/api/categories`
         );
 
         setCategories(response.data.categories);
@@ -107,7 +108,7 @@ function CreateProduct() {
       console.log("SENDING PRODUCT...");
 
       const response = await axios.post(
-        "http://localhost:3000/products/create",
+        `${API_BASE_URL}/products/create`,
         formData,
         {
           withCredentials: true,

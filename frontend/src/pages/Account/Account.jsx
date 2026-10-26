@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import API_BASE_URL from "../../config/api";
 import { Link, useSearchParams } from "react-router-dom";
 import Toast from "../../components/common/Toast";
 import { useTheme } from "../../context/ThemeContext";
 
-const API = "http://localhost:3000/api/account";
+const API = `${API_BASE_URL}/api/account`;
 const requestConfig = {
   withCredentials: true,
   headers: { "X-Client": "react" },
@@ -150,7 +151,7 @@ function Account() {
     try {
       setSavingPassword(true);
       const response = await axios.put(
-        "http://localhost:3000/users/api/account/password",
+        `${API_BASE_URL}/users/api/account/password`,
         { currentPassword, newPassword },
         requestConfig
       );
@@ -185,7 +186,7 @@ function Account() {
     try {
       setCancellingOrderId(cancelDialogOrder._id);
       const response = await axios.put(
-        `http://localhost:3000/api/orders/${cancelDialogOrder._id}/cancel`,
+        `${API_BASE_URL}/api/orders/${cancelDialogOrder._id}/cancel`,
         { reason },
         requestConfig
       );
@@ -245,7 +246,7 @@ function Account() {
       setExchangeError("");
       setExchangeLoadingOrderId(exchangeDialogOrder._id);
       const response = await axios.put(
-        `http://localhost:3000/api/orders/${exchangeDialogOrder._id}/exchange`,
+        `${API_BASE_URL}/api/orders/${exchangeDialogOrder._id}/exchange`,
         { reason },
         requestConfig
       );

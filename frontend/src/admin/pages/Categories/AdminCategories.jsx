@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import API_BASE_URL from "../../../config/api";
 
 function AdminCategories() {
   const [categories, setCategories] = useState([]);
@@ -7,7 +8,7 @@ function AdminCategories() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    axios.get("http://localhost:3000/api/admin/categories", { withCredentials: true })
+    axios.get(`${API_BASE_URL}/api/admin/categories`, { withCredentials: true })
       .then(({ data }) => setCategories(data.categories || []))
       .catch(() => setError("Unable to load categories."))
       .finally(() => setLoading(false));

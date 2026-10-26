@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import API_BASE_URL from "../../../config/api";
 import { Link } from "react-router-dom";
 
 function AdminProducts() {
@@ -12,7 +13,7 @@ function AdminProducts() {
     let active = true;
     const loadProducts = async () => {
       try {
-        const { data } = await axios.get("http://localhost:3000/api/admin/products", { withCredentials: true });
+        const { data } = await axios.get(`${API_BASE_URL}/api/admin/products`, { withCredentials: true });
         if (active) setProducts(data.products || []);
       } catch (requestError) {
         if (active) setError(requestError.response?.data?.message || "Unable to load products.");
@@ -29,7 +30,7 @@ function AdminProducts() {
     setDeletingId(productId);
     setError("");
     try {
-      await axios.delete(`http://localhost:3000/api/admin/products/${productId}`, { withCredentials: true });
+      await axios.delete(`${API_BASE_URL}/api/admin/products/${productId}`, { withCredentials: true });
       setProducts((current) => current.filter((product) => product._id !== productId));
     } catch (requestError) {
       setError(requestError.response?.data?.message || "Unable to delete product.");

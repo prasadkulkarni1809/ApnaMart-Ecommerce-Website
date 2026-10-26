@@ -8,9 +8,13 @@ const isReactRequest = (req) => req.get("X-Client") === "react";
 
 function setAuthCookie(res, token) {
   res.clearCookie("token", { path: "/users" });
+
+  const isProduction = process.env.NODE_ENV === "production";
+
   res.cookie("token", token, {
     httpOnly: true,
-    sameSite: "lax",
+    secure: isProduction,
+    sameSite: isProduction ? "none" : "lax",
     path: "/",
   });
 }

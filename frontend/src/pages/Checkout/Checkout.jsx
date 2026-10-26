@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import API_BASE_URL from "../../config/api";
 import { Link } from "react-router-dom";
 
 function Checkout() {
@@ -22,10 +23,10 @@ function Checkout() {
     const fetchCart = async () => {
       try {
         const [cartResponse, accountResponse] = await Promise.all([
-          axios.get("http://localhost:3000/api/cart", {
+          axios.get(`${API_BASE_URL}/api/cart`, {
             withCredentials: true,
           }),
-          axios.get("http://localhost:3000/api/account", {
+          axios.get(`${API_BASE_URL}/api/account`, {
             withCredentials: true,
             headers: { "X-Client": "react" },
           }),
@@ -111,7 +112,7 @@ function Checkout() {
         paymentMethod: form.paymentMethod,
       });
       const response = await axios.post(
-        "http://localhost:3000/checkout",
+        `${API_BASE_URL}/checkout`,
         form,
         {
           withCredentials: true,
@@ -134,7 +135,7 @@ function Checkout() {
       }
 
       if (data.paymentRequired) {
-        window.location.href = `http://localhost:3000${data.paymentUrl}`;
+        window.location.href = `${API_BASE_URL}${data.paymentUrl}`;
         return;
       }
 

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import API_BASE_URL from "../../../config/api";
 
 function AdminOrders({ exchangeOnly = false }) {
   const [orders, setOrders] = useState([]);
@@ -14,7 +15,7 @@ function AdminOrders({ exchangeOnly = false }) {
     const fetchOrders = async () => {
       try {
         const { data } = await axios.get(
-          "http://localhost:3000/api/admin/orders",
+          `${API_BASE_URL}/api/admin/orders`,
           { withCredentials: true }
         );
 
@@ -64,7 +65,7 @@ function AdminOrders({ exchangeOnly = false }) {
       setActionMessage("");
 
       const { data } = await axios.put(
-        `http://localhost:3000/api/admin/orders/${order._id}/status`,
+        `${API_BASE_URL}/api/admin/orders/${order._id}/status`,
         { status: newStatus },
         { withCredentials: true }
       );

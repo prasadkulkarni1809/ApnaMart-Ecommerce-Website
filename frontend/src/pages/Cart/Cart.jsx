@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
+import API_BASE_URL from "../../config/api";
 import { Link } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 
@@ -16,7 +17,7 @@ function Cart() {
       setError("");
 
       const response = await axios.get(
-        "http://localhost:3000/api/cart",
+        `${API_BASE_URL}/api/cart`,
         {
           withCredentials: true,
         }
@@ -48,7 +49,7 @@ function Cart() {
       setActionLoading(productId);
 
       await axios.post(
-        `http://localhost:3000/api/cart/${action}/${productId}`,
+        `${API_BASE_URL}/api/cart/${action}/${productId}`,
         {},
         {
           withCredentials: true,
@@ -75,7 +76,7 @@ function Cart() {
       setActionLoading(productId);
 
       await axios.delete(
-        `http://localhost:3000/api/cart/remove/${productId}`,
+        `${API_BASE_URL}/api/cart/remove/${productId}`,
         {
           withCredentials: true,
         }

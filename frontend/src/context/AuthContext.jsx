@@ -1,9 +1,10 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import axios from "axios";
+import API_BASE_URL from "../config/api";
 
 const AuthContext = createContext(null);
-const ACCOUNT_API = "http://localhost:3000/api/account";
+const ACCOUNT_API = `${API_BASE_URL}/api/account`;
 const REACT_HEADERS = { "X-Client": "react" };
 
 export function AuthProvider({ children }) {

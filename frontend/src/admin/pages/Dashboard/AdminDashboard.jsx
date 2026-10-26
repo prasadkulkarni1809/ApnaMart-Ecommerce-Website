@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import API_BASE_URL from "../../../config/api";
 import { Link } from "react-router-dom";
 
 function AdminDashboard() {
@@ -7,7 +8,7 @@ function AdminDashboard() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    axios.get("http://localhost:3000/api/admin/orders", { withCredentials: true })
+    axios.get(`${API_BASE_URL}/api/admin/orders`, { withCredentials: true })
       .then(({ data }) => setOrders(data.orders || []))
       .catch((requestError) => setError(requestError.response?.data?.message || "Unable to load dashboard summary."));
   }, []);

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import API_BASE_URL from "../../config/api";
 
-const API_BASE = "http://localhost:3000";
+const API_BASE = API_BASE_URL;
 
 const initialForm = {
   phone: "",

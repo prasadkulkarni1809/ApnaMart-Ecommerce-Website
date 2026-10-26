@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
+import API_BASE_URL from "../../config/api";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 import { useAuth } from "../../context/AuthContext";
@@ -15,7 +16,7 @@ function Navbar() {
   const [categoriesOpen, setCategoriesOpen] = useState(false);
 
   useEffect(() => {
-    axios.get("http://localhost:3000/api/categories")
+    axios.get(`${API_BASE_URL}/api/categories`)
       .then((response) => setCategories(response.data.categories || []))
       .catch((error) => console.error("NAV CATEGORY FETCH ERROR:", error));
   }, []);

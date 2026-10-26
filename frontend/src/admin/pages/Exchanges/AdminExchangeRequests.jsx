@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
+import API_BASE_URL from "../../../config/api";
 import { Link } from "react-router-dom";
 
-const ORDERS_API = "http://localhost:3000/api/admin/orders";
+const ORDERS_API = `${API_BASE_URL}/api/admin/orders`;
 
 function AdminExchangeRequests() {
   const [orders, setOrders] = useState([]);

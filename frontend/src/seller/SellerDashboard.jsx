@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import API_BASE_URL from "../config/api";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
-const API = "http://localhost:3000/api/seller";
+const API = `${API_BASE_URL}/api/seller`;
 const sections = [
   { to: "/seller", label: "Dashboard", end: true },
   { to: "/seller/products", label: "My Products" },

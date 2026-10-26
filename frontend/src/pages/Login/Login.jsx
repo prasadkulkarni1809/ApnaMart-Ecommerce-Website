@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import API_BASE_URL from "../../config/api";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { useCart } from "../../context/CartContext";
@@ -21,7 +22,7 @@ function Login() {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/users/login",
+        `${API_BASE_URL}/users/login`,
         { email: email.trim(), password },
         { withCredentials: true, headers: { "X-Client": "react" } }
       );

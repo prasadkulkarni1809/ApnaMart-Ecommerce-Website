@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import API_BASE_URL from "../../config/api";
 import { Link } from "react-router-dom";
 
 function SellerRegister() {
@@ -21,7 +22,7 @@ function SellerRegister() {
     setLoading(true);
     try {
       const { data } = await axios.post(
-        "http://localhost:3000/owners/create",
+        `${API_BASE_URL}/owners/create`,
         { fullname: form.fullname.trim(), email: form.email.trim(), password: form.password },
         { withCredentials: true, headers: { "X-Client": "react" } }
       );

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import API_BASE_URL from "../../config/api";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Toast from "../../components/common/Toast";
 import { useAuth } from "../../context/AuthContext";
@@ -25,7 +26,7 @@ function Wishlist() {
       setAddingId(product._id);
 
       const response = await axios.post(
-        "http://localhost:3000/api/cart/add",
+        `${API_BASE_URL}/api/cart/add`,
         {
           productId: product._id,
           quantity: 1,
@@ -66,7 +67,7 @@ function Wishlist() {
       setRemovingId(productId);
 
       const response = await axios.post(
-        "http://localhost:3000/api/wishlist/toggle",
+        `${API_BASE_URL}/api/wishlist/toggle`,
         { productId },
         { withCredentials: true }
       );
@@ -110,7 +111,7 @@ function Wishlist() {
         setError("");
 
         const response = await axios.get(
-          "http://localhost:3000/api/wishlist",
+          `${API_BASE_URL}/api/wishlist`,
           {
             withCredentials: true,
           }

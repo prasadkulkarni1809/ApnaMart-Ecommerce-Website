@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import API_BASE_URL from "../../config/api";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { useCart } from "../../context/CartContext";
@@ -18,7 +19,7 @@ function Register() {
     setLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:3000/users/register",
+        `${API_BASE_URL}/users/register`,
         form,
         { withCredentials: true, headers: { "X-Client": "react" } }
       );

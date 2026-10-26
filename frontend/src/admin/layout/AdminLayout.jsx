@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import API_BASE_URL from "../../config/api";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
@@ -26,7 +27,7 @@ function AdminLayout({ children }) {
     let active = true;
     const refreshOrderNotifications = async () => {
       try {
-        const { data } = await axios.get("http://localhost:3000/api/admin/orders", {
+        const { data } = await axios.get(`${API_BASE_URL}/api/admin/orders`, {
           withCredentials: true,
         });
         if (!active || !data.success) return;

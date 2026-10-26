@@ -1,6 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import axios from "axios";
+import API_BASE_URL from "../config/api";
 
 const CartContext = createContext(null);
 
@@ -9,7 +10,7 @@ export function CartProvider({ children }) {
 
   const refreshCartCount = useCallback(async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/cart", {
+      const response = await axios.get(`${API_BASE_URL}/api/cart`, {
         withCredentials: true,
       });
       const count = (response.data.cartItems || []).reduce(
@@ -31,7 +32,7 @@ export function CartProvider({ children }) {
 
   const addToCart = async (productId, quantity = 1) => {
     const response = await axios.post(
-      "http://localhost:3000/api/cart/add",
+      `${API_BASE_URL}/api/cart/add`,
       { productId, quantity },
       { withCredentials: true }
     );

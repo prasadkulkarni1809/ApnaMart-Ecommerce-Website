@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import API_BASE_URL from "../../config/api";
 import { Link, useSearchParams } from "react-router-dom";
 import ProductCard from "../../components/Products/ProductCard";
 
@@ -15,7 +16,7 @@ function Products() {
   const selectedCategory = categories.find((category) => category._id === categoryId);
 
   useEffect(() => {
-    axios.get("http://localhost:3000/api/categories")
+    axios.get(`${API_BASE_URL}/api/categories`)
       .then((response) => setCategories(response.data.categories || []))
       .catch((categoryError) => console.error("CATEGORY FETCH ERROR:", categoryError));
   }, []);
@@ -27,7 +28,7 @@ function Products() {
         setError("");
 
         const response = await axios.get(
-          "http://localhost:3000/api/products",
+          `${API_BASE_URL}/api/products`,
           {
             params: {
               sort: sort,
